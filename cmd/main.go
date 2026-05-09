@@ -46,18 +46,19 @@ func main() {
 	})
 	w := worker.New(smtpSender, redisQueuer)
 
-	// 4. Graceful shutdown
+	// 4. Avvia il loop in una goroutine
+	go startWorkerLoop(ctx, redisQueuer, w)
+
+	// 5. Aspetta il segnale di shutdown
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+	<-sigChan
+	log.Println("[main] shutdown in corso...")
+	cancel()
+	log.Println("[main] shutdown completato")
+}
 
-	go func() {
-		<-sigChan
-		log.Println("[main] shutdown in corso...")
-		cancel()
-	}()
-
-	// 5. Loop principale
-	log.Printf("[main] in ascolto sulla coda %s...", queue.MainQueue)
+func startWorkerLoop(ctx context.Context, redisQueuer *queue.RedisQueuer, w *worker.Worker) {
 	for {
 		job, err := redisQueuer.Pop(ctx)
 		if err != nil {
