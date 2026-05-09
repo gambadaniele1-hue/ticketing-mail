@@ -12,7 +12,7 @@ type Sender interface {
 	Send(job queue.MailJob) error
 }
 
-type SMTPConfing struct {
+type SMTPConfig struct {
 	Host     string
 	Port     string
 	Username string
@@ -21,10 +21,10 @@ type SMTPConfing struct {
 }
 
 type SMTPSender struct {
-	config SMTPConfing
+	config SMTPConfig
 }
 
-func NewSMTPSender(cfg SMTPConfing) *SMTPSender {
+func NewSMTPSender(cfg SMTPConfig) *SMTPSender {
 	return &SMTPSender{
 		config: cfg,
 	}
