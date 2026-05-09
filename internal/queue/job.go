@@ -1,6 +1,6 @@
 package queue
 
-type Mailjob struct {
+type MailJob struct {
 	To       string `json:"to"`
 	Subject  string `json:"subject"`
 	HTML     string `json:"html"`
@@ -8,6 +8,6 @@ type Mailjob struct {
 	Attempts int    `json:"attempts"`
 }
 
-func (j *Mailjob) IsValid() bool {
+func (j *MailJob) IsValid() bool {
 	return j.To != "" && j.Subject != "" && (j.HTML != "" || j.Text != "")
 }

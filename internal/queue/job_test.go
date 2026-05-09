@@ -14,7 +14,7 @@ func TestMailJobSerialization(t *testing.T) {
 		"html": "<h1>Titolo</h1>",
 		"text": "testo in chiaro"
 	}`
-	var job queue.Mailjob
+	var job queue.MailJob
 
 	err := json.Unmarshal([]byte(rawjson), &job)
 
@@ -40,13 +40,13 @@ func TestMailJobSerialization(t *testing.T) {
 }
 
 func TestMailJobValidation(t *testing.T) {
-	jobVouto := queue.Mailjob{}
+	jobVouto := queue.MailJob{}
 
 	if jobVouto.IsValid() {
 		t.Error("un job vuoto non dovrebbe essere valido")
 	}
 
-	jobValido := queue.Mailjob{
+	jobValido := queue.MailJob{
 		To:      "gamba@email",
 		Subject: "Oggetto",
 		HTML:    "<h1>Titolo</h1>",
