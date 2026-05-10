@@ -59,6 +59,7 @@ func main() {
 }
 
 func startWorkerLoop(ctx context.Context, redisQueuer *queue.RedisQueuer, w *worker.Worker) {
+	log.Printf("[main] in ascolto sulla coda %s...", queue.MainQueue)
 	for {
 		job, err := redisQueuer.Pop(ctx)
 		if err != nil {
